@@ -36,8 +36,6 @@ class Product(db.Model):
         self.qty = qty
 
 # Product Schema
-
-
 class ProductSchema(ma.Schema):
     class Meta:
         # Fields to expose
@@ -48,8 +46,6 @@ product_schema = ProductSchema()
 products_schema = ProductSchema(many=True)
 
 # Create a product
-
-
 @app.route('/product', methods=['POST'])
 def add_product():
     name = request.json['name']
@@ -65,8 +61,6 @@ def add_product():
     return product_schema.jsonify(new_product)
 
 # Get all products
-
-
 @app.route('/product', methods=['GET'])
 def view_products():
     products = Product.query.all()
