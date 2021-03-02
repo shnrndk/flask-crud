@@ -20,6 +20,8 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 # Product Class/Modal
+
+
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
@@ -34,6 +36,8 @@ class Product(db.Model):
         self.qty = qty
 
 # Product Schema
+
+
 class ProductSchema(ma.Schema):
     class Meta:
         # Fields to expose
@@ -43,20 +47,31 @@ class ProductSchema(ma.Schema):
 product_schema = ProductSchema()
 products_schema = ProductSchema(many=True)
 
-#Create a product
-@app.route('/product',methods=['POST'])
+# Create a product
+
+
+@app.route('/product', methods=['POST'])
 def add_product():
     name = request.json['name']
     description = request.json['description']
     price = request.json['price']
     qty = request.json['qty']
-   
-    new_product = Product(name,description,price,qty)
+
+    new_product = Product(name, description, price, qty)
 
     db.session.add(new_product)
     db.session.commit()
 
     return product_schema.jsonify(new_product)
+
+# Get all products
+
+
+@app.route('/product', methods=['GET'])
+def view_products():
+    products = Product.query.all()
+    return products_schema.jsonify(products)
+
 
 # Run Server
 if __name__ == '__main__':
