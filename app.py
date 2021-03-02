@@ -66,6 +66,12 @@ def view_products():
     products = Product.query.all()
     return products_schema.jsonify(products)
 
+# Get a product
+@app.route('/product/<id>', methods=['GET'])
+def ge_product(id):
+    product = Product.query.get(id)
+    return product_schema.jsonify(product)
+
 
 # Run Server
 if __name__ == '__main__':
